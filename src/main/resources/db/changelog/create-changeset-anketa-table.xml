@@ -6,6 +6,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
+    <changeSet id="create_user" author="db_author">
+    <sql endDelimiter=";" splitStatements="true" stripComments="true">
+        CREATE USER 'appuser'@'localhost' IDENTIFIED BY 'password';
+    </sql>
+    </changeSet>
+
     <changeSet id="create_table_anketa" author="db_author">
         <createTable tableName="anketa">
             <column autoIncrement="true" name="id" type="bigint">
