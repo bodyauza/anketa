@@ -4,7 +4,7 @@
  <li>Java 8+</li>
  <li>Apache Maven 3. x</li>
  <li>MySQL 8.0+</li>
- <li>Подключите следующие maven-зависимости:
+ <li>Подключите следующие maven-зависимости:<br>
  <code>mysql-connector-java (8.0.32)
  javafx-controls (19)
  javafx-fxml (19)
