@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane cache="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="296.0" style="-fx-border-radius: 10px;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.anketa2023.dangerController">
+    <children>
+        <Label layoutX="7.0" layoutY="29.0" prefHeight="38.0" prefWidth="282.0" text="Пользователь уже внесен в базу! ">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+    </children>
+    <cursor>
+        <Cursor fx:constant="CLOSED_HAND" />
+    </cursor>
+</AnchorPane>
