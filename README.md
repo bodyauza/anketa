@@ -11,12 +11,12 @@
  controlsfx (11)
  javafx-maven-plugin(0.0.8)
  org.apache.poi (5.2.2)
- liquibase-core (4.22.0)</code>
+ liquibase-core (4.22.0)
  spring-boot-starter-web
  spring-boot-starter-data-jpa
  spring-boot-devtools
  spring-boot-maven-plugin
- lombok
+ lombok</code>
  </li>
  </ul>
 
