@@ -11,6 +11,9 @@ import java.util.List;
 
 import com.project.anketa.models.Anketa;
 import com.project.anketa.models.repo.AnketaRepository;
+import com.project.anketa.services.DatabaseHandler;
+import com.project.anketa.services.EmailService;
+import com.project.anketa.services.WordService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -64,6 +67,12 @@ public class HelloController {
     private DatabaseHandler databaseHandler;
 
     @Autowired
+    private WordService wordService;
+
+    @Autowired
+    private EmailService emailSender;
+
+    @Autowired
     private AnketaRepository anketaRepository;
 
     @FXML
@@ -103,12 +112,12 @@ public class HelloController {
             }
 
             //проверка номера телефона с заменой
-            String cleanedInput = number_field.getText().replaceAll("\\D+", "");
+            String correctNumber = number_field.getText().replaceAll("\\D+", "");
 
-            System.out.print("Valid phone number: " + number_field.getText() + " -> " + cleanedInput);
-            cleanedInput = cleanedInput.replaceFirst("^(8?)(90)", "7$2");
+            System.out.print("Valid phone number: " + number_field.getText() + " -> " + correctNumber);
+            correctNumber = correctNumber.replaceFirst("^(8?)(90)", "7$2");
 
-            if (cleanedInput.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{8}$")) {
+            if (correctNumber.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{8}$")) {
 
                 System.out.println("Hello number");
 
@@ -120,14 +129,14 @@ public class HelloController {
                     if (email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
 
                         try {
-                            toWord(name, cleanedInput, email);
+                            wordService.toWord(name, correctNumber, email);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
 
-                        signUpUser(name, cleanedInput, email);
+                        signUpUser(name, correctNumber, email);
 
-                        emailSender(email);
+                        emailSender.emailSender(email);
                     }
                 }
             }
@@ -135,154 +144,10 @@ public class HelloController {
         });
     }
 
-
-    private void toWord(String name, String cleanedInput, String email) throws IOException {
-
-        String[] nmbArray = new String[0];
-        final ArrayList<String> numberandnames = new ArrayList(Arrays.asList(nmbArray));
-
-        String[] nmbArray1 = new String[0];
-        final ArrayList<String> numberandnames1 = new ArrayList(Arrays.asList(nmbArray1));
-
-        String[] nmbArray2 = new String[0];
-        final ArrayList<String> numberandnames2 = new ArrayList(Arrays.asList(nmbArray2));
-
-        File f = new File("D:\\Anketa.docx");
-
-        f.createNewFile();
-
-        if (f.exists()) {
-
-            System.out.println("\n Добавлено в базу");
-
-
-            numberandnames.add(name);
-            numberandnames1.add(cleanedInput);
-            numberandnames2.add(email);
-
-            //чтение файла
-            FileInputStream fis;
-            try {
-                fis = new FileInputStream(f.getAbsolutePath());
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-
-            XWPFDocument docxModel = null;
-            try {
-                docxModel = new XWPFDocument(fis);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            docxModel.createParagraph();
-
-            String documentLine = docxModel.getDocument().toString();
-            CTSectPr ctSectPr = docxModel.getDocument().getBody().addNewSectPr();
-            XWPFParagraph bodyParagraph = docxModel.createParagraph();
-            bodyParagraph.setAlignment(ParagraphAlignment.LEFT);
-
-            //создание параграфа
-            XWPFRun paragraphConfig = bodyParagraph.createRun();
-            XWPFParagraph paragraph = docxModel.createParagraph();
-
-            paragraphConfig.setItalic(true);
-            paragraphConfig.setFontSize(20);
-            paragraphConfig.setColor("170101");
-            paragraphConfig.setFontSize(12);
-
-            List<XWPFParagraph> paragraphs = docxModel.getParagraphs();
-
-            paragraphConfig.setText(numberandnames.toString());
-            paragraphConfig.setText(numberandnames1.toString());
-            paragraphConfig.setText(numberandnames2.toString());
-
-            try {
-                fis.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            //изменение файла
-            try {
-                FileOutputStream outputStream = new FileOutputStream(f.getAbsolutePath());
-                docxModel.write(outputStream);
-            } catch (Exception var21) {
-                throw new RuntimeException(var21);
-            }
-
-            //запуск Word
-            Desktop desktop = null;
-            if (Desktop.isDesktopSupported()) {
-                desktop = Desktop.getDesktop();
-
-                try {
-                    desktop.open(new File(f.getAbsolutePath()));
-                } catch (IOException var4) {
-                    var4.printStackTrace();
-                }
-            }
-        }
-    }
-
     private void signUpUser(String name, String number, String email) {
         Date date = new Date();
         Anketa anketa = new Anketa(name, number, email, date);
         anketaRepository.save(anketa);
-    }
-
-    private void emailSender(String email) {
-
-        String to = email;
-
-        // Необходимо указать адрес электронной почты отправителя
-        String from = "bogdanazino777@gmail.com";
-
-        // Предполагая, что вы отправляете электронное письмо с gmail
-        String host = "smtp.gmail.com";
-
-        String port = "587";
-
-        // Получить свойства системы
-        Properties properties = System.getProperties();
-
-        // Настроить почтовый сервер
-        properties.put("mail.smtp.host", host);
-        properties.put("mail.smtp.port", port);
-        properties.put("mail.debug", "true");
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
-
-        Session session = Session.getInstance(properties,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(
-                                "bogdanazino777@gmail.com", "");// Адрес электронной почты и пароль отправителя
-                    }
-                });
-
-        try {
-            // Создание объекта MimeMessage по умолчанию
-            Message message = new MimeMessage(session);
-
-            // Установить От: поле заголовка
-            message.setFrom(new InternetAddress(from));
-
-            // Установить Кому: поле заголовка
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            // Установить тему: поле заголовка
-            message.setSubject("Это тема письма!");
-
-            // Теперь установите фактическое сообщение
-            message.setText("Это актуальное сообщение");
-
-            // Отправить сообщение
-            Transport.send(message);
-            System.out.println("Сообщение успешно отправлено....");
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-        }
     }
 }
 

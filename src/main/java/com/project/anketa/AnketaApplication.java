@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.IOException;
 
 @SpringBootApplication
-public class AnketaApplication /*extends Application*/ {
-	/*@Override
+public class AnketaApplication extends Application {
+	@Override
 	public void start(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(AnketaApplication.class.getResource("hello-view.fxml"));
 		stage.setResizable(false);
@@ -20,7 +20,7 @@ public class AnketaApplication /*extends Application*/ {
 		stage.setTitle("Hello!");
 		stage.setScene(scene);
 		stage.show();
-	}*/
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(AnketaApplication.class, args);
