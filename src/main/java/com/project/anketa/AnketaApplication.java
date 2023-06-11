@@ -24,6 +24,6 @@ public class AnketaApplication extends Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AnketaApplication.class, args);
-		/*launch();*/
+		launch();
 	}
 }
