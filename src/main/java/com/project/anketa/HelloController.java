@@ -119,12 +119,8 @@ public class HelloController {
 
             if (correctNumber.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{8}$")) {
 
-                System.out.println("Hello number");
-
                 //проверка поля с ФИО
                 if (name.trim().length() != 0 && name.matches("\\D+")) {
-
-                    System.out.println("hi");
 
                     if (email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
 
