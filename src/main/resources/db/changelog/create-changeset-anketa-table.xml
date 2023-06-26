@@ -7,12 +7,20 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="create_user" author="db_author">
-    <sql endDelimiter=";" splitStatements="true" stripComments="true">
-        CREATE USER 'appuser'@'localhost' IDENTIFIED BY 'password';
-    </sql>
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = 'appuser')</sqlCheck>
+        </preConditions>
+        <sql endDelimiter=";" splitStatements="true" stripComments="true">
+            CREATE USER 'appuser'@'localhost' IDENTIFIED BY 'password';
+        </sql>
     </changeSet>
 
     <changeSet id="create_table_anketa" author="db_author">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anketa"/>
+            </not>
+        </preConditions>
         <createTable tableName="anketa">
             <column autoIncrement="true" name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
