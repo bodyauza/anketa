@@ -30,7 +30,7 @@
 
     Откройте файл "create-changeset-anketa-table.xml" и создайте нового пользователя:
 
-    <code>CREATE USER 'appuser'@'localhost' IDENTIFIED BY 'password';</code>
+    CREATE USER 'appuser'@'localhost' IDENTIFIED BY 'password';
 
     В файл application.properties продублируйте имя и пароль:
 
@@ -41,5 +41,5 @@
 
 Также, при запуске исполняемого jar-файла, необходимо прописать в вашей IDE или файле MANIFEST.MF настройки VM:
 
-    <code>VM-Options: --module-path /*путь до скачанной библиотеки, например:*/ "D:\Downloads\javafx-sdk-20\lib"
-    --add-modules javafx.controls,javafx.fxml</code>
+    VM-Options: --module-path /*путь до скачанной библиотеки, например:*/ "D:\Downloads\javafx-sdk-20\lib"
+    --add-modules javafx.controls,javafx.fxml
