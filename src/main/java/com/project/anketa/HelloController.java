@@ -29,8 +29,6 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import java.util.*;
 import javax.mail.*;
@@ -63,16 +61,12 @@ public class HelloController {
     @FXML
     private TextField email_field;
 
-    @Autowired
     private DatabaseHandler databaseHandler;
 
-    @Autowired
     private WordService wordService;
 
-    @Autowired
     private EmailService emailSender;
 
-    @Autowired
     private AnketaRepository anketaRepository;
 
     @FXML
