@@ -12,6 +12,13 @@ import java.io.IOException;
 
 @SpringBootApplication
 public class AnketaApplication extends Application {
+	public static String[] args;
+
+	public static void main(String[] args) {
+		AnketaApplication.args = args;
+		Application.launch(AnketaApplication.class, args);
+	}
+
 	@Override
 	public void start(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(AnketaApplication.class.getResource("hello-view.fxml"));
@@ -21,9 +28,8 @@ public class AnketaApplication extends Application {
 		stage.setScene(scene);
 		stage.show();
 	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(AnketaApplication.class, args);
-		launch();
+		new Thread(() -> {
+			new SpringApplicationBuilder(AnketaApplication.class).run(args);
+		}, "Spring Thread").start();
 	}
 }
